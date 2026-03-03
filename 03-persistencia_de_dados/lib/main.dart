@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '01_shared_preferences/shared_pref_screen.dart'; // Import da sua nova tela
+import 'home_page.dart'; // Importa o seu novo menu
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Estudos Persistência',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: const SharedPrefScreen(), // Chama a tela do módulo 01
+      debugShowCheckedModeBanner: false,
+      title: 'Trilha de Persistência - BodeXX',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        useMaterial3: true,
+      ),
+      home: const HomePage(), // Agora a primeira tela é o Menu
     );
   }
 }
