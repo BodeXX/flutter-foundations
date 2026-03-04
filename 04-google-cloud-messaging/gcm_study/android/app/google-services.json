@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "178880749588",
+    "project_id": "gcm-study-bode",
+    "storage_bucket": "gcm-study-bode.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178880749588:android:a4bb22ed8cd5b550964701",
+        "android_client_info": {
+          "package_name": "com.example.gcm_study"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzppfzCJZk4O8XRmQjarqvG0pAxm32Y3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
