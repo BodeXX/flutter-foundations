@@ -1,11 +1,17 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+// 1. Handler de Background: Precisa ser uma função global e estática.
+// Esta função é executada em um Isolate separado quando o app está fechado.
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print(" Notificação em Background: ${message.messageId}");
+}
+
 class PushNotificationService {
-  // 1. Criamos uma instância privada do Firebase Messaging
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
   Future<void> initialize() async {
-    // 2. Pedir permissão ao usuário (Obrigatório para Web e iOS)
+    // 2. Pedir permissão ao usuário
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
       badge: true,
@@ -13,20 +19,29 @@ class PushNotificationService {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('✅ Usuário permitiu as notificações!');
+      print(' Usuário permitiu as notificações!');
 
-      // 3. Capturar o Token único deste "aparelho" (ou navegador)
+      // 3. Capturar o Token GCM
       String? token = await _fcm.getToken();
-
       print("========= SEU TOKEN GCM =========");
       print(token);
       print("=================================");
 
-      // TODO: No futuro, enviar este token para o seu servidor backend
+      // 4. Configurar Listeners
+      _configureListeners();
     } else {
-      print(
-        '❌ Usuário recusou as notificações ou a permissão ainda é provisória.',
-      );
+      print(' Usuário recusou as notificações.');
     }
+  }
+
+  void _configureListeners() {
+    // Ouvir mensagens com o app aberto (Foreground)
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("🔔 Recebi em Foreground: ${message.notification?.title}");
+      print("Corpo da mensagem: ${message.notification?.body}");
+    });
+
+    // Registrar o handler de background
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 }
